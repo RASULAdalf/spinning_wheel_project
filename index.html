@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPING GAME</title>
+</head>
+
+<body>
+    <center><h1 id="spinStatus">Spin pending...</h1></center>
+    <canvas id='canvas' width='1200' height='540'>
+        Canvas not supported, use another browser.
+    </canvas>
+    <center><h3 id="spinResult">Spin Results Pending...</h3></center>
+    
+    <center><h2 id="question"></h2></center>
+    <button style="margin-left: 40px;" onClick="theWheel.startAnimation(); socket.emit('spinStart',promptMSG+' is spinning...');document.getElementById('spinStatus').innerHTML='You are spinning...';document.getElementById('question').innerHTML=''; ">Spin the Wheel</button>
+    <button onclick="socket.emit('buzz',promptMSG); alert('You have buzzed!');">Buzz</button>&nbsp;
+    <script src="/socket.io/socket.io.js"></script>
+    <script src='/static/test.js'></script>
+    <script src="/static/Winwheel.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/gsap@2.1.3/./umd/TweenMax.js"></script>
+    <script>
+        var promptMSG = prompt("Please enter your name :");
+        console.log(promptMSG);
+        var socket = io();
+        socket.emit('name',promptMSG);
+        
+
+        let theWheel = new Winwheel({
+                'numSegments'  : 25,         // Number of segments
+                'outerRadius'  : 250,       // The size of the wheel.
+                'centerX'      : 740,       // Used to position on the background correctly.
+                'centerY'      : 260,
+                'textFontSize' : 25,        // Font size.
+                'segments'     :            // Definition of all the segments.
+                [
+                   {'fillStyle' : '#eae56f', 'text' : 'Question 1'},
+                   {'fillStyle' : '#89f26e', 'text' : 'Question 2'},
+                   {'fillStyle' : '#7de6ef', 'text' : 'Question 3'},
+                   {'fillStyle' : '#e7706f', 'text' : 'Question 4'},
+                   {'fillStyle' : '#eae56f', 'text' : 'Question 5'},
+                   {'fillStyle' : '#89f26e', 'text' : 'Question 6'},
+                   {'fillStyle' : '#7de6ef', 'text' : 'Question 7'},
+                   {'fillStyle' : '#e7706f', 'text' : 'Question 8'},
+                   {'fillStyle' : '#eae56f', 'text' : 'Question 9'},
+                   {'fillStyle' : '#89f26e', 'text' : 'Question 10'},
+                   {'fillStyle' : '#7de6ef', 'text' : 'Question 11'},
+                   {'fillStyle' : '#e7706f', 'text' : 'Question 12'},
+                   {'fillStyle' : '#eae56f', 'text' : 'Question 13'},
+                   {'fillStyle' : '#89f26e', 'text' : 'Question 14'},
+                   {'fillStyle' : '#7de6ef', 'text' : 'Question 15'},
+                   {'fillStyle' : '#e7706f', 'text' : 'Question 16'},
+                   {'fillStyle' : '#eae56f', 'text' : 'Question 17'},
+                   {'fillStyle' : '#89f26e', 'text' : 'Question 18'},
+                   {'fillStyle' : '#7de6ef', 'text' : 'Question 19'},
+                   {'fillStyle' : '#e7706f', 'text' : 'Question 20'},
+                   {'fillStyle' : '#eae56f', 'text' : 'Question 21'},
+                   {'fillStyle' : '#89f26e', 'text' : 'Question 22'},
+                   {'fillStyle' : '#7de6ef', 'text' : 'Question 23'},
+                   {'fillStyle' : '#e7706f', 'text' : 'Question 24'},
+                   {'fillStyle' : '#e7706f', 'text' : 'Question 25'}
+                ],
+                'animation' :               // Definition of the animation
+                {
+                    'type'     : 'spinToStop',
+                    'duration' : 5,
+                    'spins'    : 8,
+                    'callbackFinished' : alertPrize
+                }
+            });
+
+        socket.on('spinStart',(data)=>{
+            document.getElementById('question').innerHTML = '';
+            document.getElementById('spinStatus').innerHTML=data;
+        })
+        socket.on('spinEnd',(data)=>{
+            var question = document.getElementById('question');
+            var text = document.getElementById('spinResult');
+            text.innerHTML = data;
+            if(data.includes('Question 1')){
+                question.innerHTML = "I go to school at 7.30 everyday.";
+            }else if(data.includes('Question 2')){
+                question.innerHTML = "Justing has Rs. 30 to buy new clothes.";
+            }else if(data.includes('Question 3')){
+                question.innerHTML  = "My favourite colour is orange";
+            }else if(data.includes('Question 4')){
+                question.innerHTML = "Ben plays basketball with his firends after school.";
+            }else if(data.includes('Question 5')){
+                question.innerHTML = "She likes to wear the green jacket.";
+            }else if(data.includes('Question 6')){
+                question.innerHTML = "He feels tired after work.";
+            }else if(data.includes('Question 7')){
+                question.innerHTML = "I like to listen to rock music.";
+            }else if(data.includes('Question 8')){
+                question.innerHTML = "I usually do my homework at the library.";
+            }else if(data.includes('Question 9')){
+                question.innerHTML = "Fred drives carefully.";
+            }else if(data.includes('Question 10')){
+                question.innerHTML = "He feels tired after work.";
+            }else if(data.includes('Question 11')){
+                question.innerHTML = "John borrowed a dictionary because, he didn't understand the word.";
+            }else if(data.includes('Question 12')){
+                question.innerHTML = "That notebook is Jose's.";
+            }else if(data.includes('Question 13')){
+                question.innerHTML = "The student usually come to school by bus.";
+            }else if(data.includes('Question 14')){
+                question.innerHTML = "My country is one thousand miles from Califonia.";
+            }else if(data.includes('Question 15')){
+                question.innerHTML = "I've been waiting for 45 minutes.";
+            }else if(data.includes('Question 16')){
+                question.innerHTML = "They'll arrive at 10 o' clock.";
+            }else if(data.includes('Question 17')){
+                question.innerHTML = "She is planning to spend her vacation in Florida.";
+            }else if(data.includes('Question 18')){
+                question.innerHTML = "Sam likes dogs as they are nice..";
+            }else if(data.includes('Question 19')){
+                question.innerHTML = "Paul and Sam are playing soccer in the garden.";
+            }else if(data.includes('Question 20')){
+                question.innerHTML = "I’m leaving tomorrow.";
+            }else if(data.includes('Question 21')){
+                question.innerHTML = "Kenny isn’t sleeping at home tonight.";
+            }else if(data.includes('Question 22')){
+                question.innerHTML = "Tina runs with her friend on Sundays.";
+            }else if(data.includes('Question 23')){
+                question.innerHTML = "She meets him every Friday.";
+            }else if(data.includes('Question 24')){
+                question.innerHTML = "They play tennis every Thursday.";
+            }else if(data.includes('Question 25')){
+                question.innerHTML = "She played tennis from 1980 to 1987..";
+            }
+            document.getElementById('spinStatus').innerHTML='Spin pending...';
+        })
+        socket.on('buzz',(data)=>{
+            alert(data);
+        })
+                
+ 
+            // Called when the animation has finished.
+            function alertPrize(indicatedSegment)
+            {
+                // Do basic alert of the segment text.
+                alert("You have got " + indicatedSegment.text);
+                document.getElementById('spinResult').innerHTML="You have got " + indicatedSegment.text;
+                document.getElementById('spinStatus').innerHTML='Spin pending...';
+                socket.emit('spinEnd',promptMSG+' has got '+indicatedSegment.text);
+                if(indicatedSegment.text.includes('Question 1')){
+                question.innerHTML = "I go to school at 7.30 everyday.";
+            }else if(indicatedSegment.text.includes('Question 2')){
+                question.innerHTML = "Justing has Rs. 30 to buy new clothes.";
+            }else if(indicatedSegment.text.includes('Question 3')){
+                question.innerHTML  = "My favourite colour is orange";
+            }else if(indicatedSegment.text.includes('Question 4')){
+                question.innerHTML = "Ben plays basketball with his firends after school.";
+            }else if(indicatedSegment.text.includes('Question 5')){
+                question.innerHTML = "She likes to wear the green jacket.";
+            }else if(indicatedSegment.text.includes('Question 6')){
+                question.innerHTML = "He feels tired after work.";
+            }else if(indicatedSegment.text.includes('Question 7')){
+                question.innerHTML = "I like to listen to rock music.";
+            }else if(indicatedSegment.text.includes('Question 8')){
+                question.innerHTML = "I usually do my homework at the library.";
+            }else if(indicatedSegment.text.includes('Question 9')){
+                question.innerHTML = "Fred drives carefully.";
+            }else if(indicatedSegment.text.includes('Question 10')){
+                question.innerHTML = "He feels tired after work.";
+            }else if(indicatedSegment.text.includes('Question 11')){
+                question.innerHTML = "John borrowed a dictionary because, he didn't understand the word.";
+            }else if(indicatedSegment.text.includes('Question 12')){
+                question.innerHTML = "That notebook is Jose's.";
+            }else if(indicatedSegment.text.includes('Question 13')){
+                question.innerHTML = "The student usually come to school by bus.";
+            }else if(indicatedSegment.text.includes('Question 14')){
+                question.innerHTML = "My country is one thousand miles from Califonia.";
+            }else if(indicatedSegment.text.includes('Question 15')){
+                question.innerHTML = "I've been waiting for 45 minutes.";
+            }else if(indicatedSegment.text.includes('Question 16')){
+                question.innerHTML = "They'll arrive at 10 o' clock.";
+            }else if(indicatedSegment.text.includes('Question 17')){
+                question.innerHTML = "She is planning to spend her vacation in Florida.";
+            }else if(indicatedSegment.text.includes('Question 18')){
+                question.innerHTML = "Sam likes dogs as they are nice..";
+            }else if(indicatedSegment.text.includes('Question 19')){
+                question.innerHTML = "Paul and Sam are playing soccer in the garden.";
+            }else if(indicatedSegment.text.includes('Question 20')){
+                question.innerHTML = "I’m leaving tomorrow.";
+            }else if(indicatedSegment.text.includes('Question 21')){
+                question.innerHTML = "Kenny isn’t sleeping at home tonight.";
+            }else if(indicatedSegment.text.includes('Question 22')){
+                question.innerHTML = "Tina runs with her friend on Sundays.";
+            }else if(indicatedSegment.text.includes('Question 23')){
+                question.innerHTML = "She meets him every Friday.";
+            }else if(indicatedSegment.text.includes('Question 24')){
+                question.innerHTML = "They play tennis every Thursday.";
+            }else if(indicatedSegment.text.includes('Question 25')){
+                question.innerHTML = "She played tennis from 1980 to 1987..";
+            }
+            }
+
+    </script>
+</body>
+
+</html>
