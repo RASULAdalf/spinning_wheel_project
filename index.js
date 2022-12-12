@@ -3,7 +3,10 @@ const app = express();
 const http = require('http');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
-const io = new Server(server);
+const io = new Server(server,{
+  cors: {
+    origin: "https://app.netlify.com"
+  });
 
 const path = require('path')
 app.use('/static', express.static(path.join(__dirname, 'static')));
