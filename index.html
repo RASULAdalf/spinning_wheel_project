@@ -18,7 +18,7 @@
     <center><h2 id="question"></h2></center>
     <button style="margin-left: 40px;" onClick="theWheel.startAnimation(); socket.emit('spinStart',promptMSG+' is spinning...');document.getElementById('spinStatus').innerHTML='You are spinning...';document.getElementById('question').innerHTML=''; ">Spin the Wheel</button>
     <button onclick="socket.emit('buzz',promptMSG); alert('You have buzzed!');">Buzz</button>&nbsp;
-    <script src="http://socket.io/socket.io.js"></script>
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js" integrity="sha384-/KNQL8Nu5gCHLqwqfQjA689Hhoqgi2S84SNUxC3roTe4EhJ9AfLkp8QiQcU8AMzI" crossorigin="anonymous"></script>
     <script src='/static/test.js'></script>
     <script src="/static/Winwheel.js"></script>
     <script type="text/javascript" src="https://unpkg.com/gsap@2.1.3/./umd/TweenMax.js"></script>
