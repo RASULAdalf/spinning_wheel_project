@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
 
 io.on('connection', (socket) => {
     socket.on('name',(data)=>{
-        console.log(data+' connected');
+        console.log(data+' connected successfully.');
     });
 
     socket.on('spinStart',(data)=>{
